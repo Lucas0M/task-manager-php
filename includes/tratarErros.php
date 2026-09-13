@@ -28,5 +28,7 @@ function exibirMensagem()
   }
   if (isset($_GET['created']) && $_GET['created'] === 'success') {
     echo "<p class='text-success'>Tarefa criada com sucesso!</p>";
+  } else if (isset($_GET['updated']) && $_GET['updated'] === 'success') {
+    echo "<p class='text-success'>Tarefa editada com sucesso!</p>";
   }
 }
