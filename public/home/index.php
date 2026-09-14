@@ -26,7 +26,7 @@ require __DIR__ . '/../../includes/tratarErros.php';
   </header>
   <main>
     <div class="container d-flex flex-column align-items-center justify-content-center gap-5 min-vh-100">
-      <h2>Gerenciador de Tarefa</h2>
+      <h2>Gerenciador de Tarefas (Redmine 2)</h2>
       <form action="../../includes/criarTarefa.php" method="post">
         <div class="form-div d-flex flex-column text-center gap-3">
           <input autocomplete="off" placeholder="Título" class="form-control" name="titulo" id="titulo" type="text">

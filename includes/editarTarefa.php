@@ -30,8 +30,6 @@ if (!empty($errors)) {
   die();
 }
 
-print_r($repository->listarPorId($id));
-
 $repository = new TarefaRepository();
 $repository->editar($titulo, $descricao, $responsavel, $concluida, $id);
 
