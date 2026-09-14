@@ -29,9 +29,9 @@ require __DIR__ . '/../../includes/tratarErros.php';
       <h2>Editar tarefa</h2>
       <form action="../../includes/editarTarefa.php?id=<?= $tarefa['id']; ?>" method="post">
         <div class="form-div d-flex flex-column text-center gap-3">
-          <input placeholder="Título" value="<?= $tarefa['titulo'] ?>" class="form-control" name="titulo" id="titulo" type="text">
-          <input placeholder="Descrição" value="<?= $tarefa['descricao'] ?>" class="form-control" name="descricao" id="descricao" type="text">
-          <input placeholder="Responsável" value="<?= $tarefa['responsavel'] ?>" class="form-control" name="responsavel" id="responsavel" type="text">
+          <input autocomplete="off" placeholder="Título" value="<?= $tarefa['titulo'] ?>" class="form-control" name="titulo" id="titulo" type="text">
+          <input autocomplete="off" placeholder="Descrição" value="<?= $tarefa['descricao'] ?>" class="form-control" name="descricao" id="descricao" type="text">
+          <input autocomplete="off" placeholder="Responsável" value="<?= $tarefa['responsavel'] ?>" class="form-control" name="responsavel" id="responsavel" type="text">
           <select name="status" id="status">
             <option value="Concluida" <?php if ($tarefa['concluida'] === 'Concluida') echo 'selected'; ?>>Concluida</option>
             <option value="Pendente" <?php if ($tarefa['concluida'] === 'Pendente') echo 'selected'; ?>>Pendente</option>

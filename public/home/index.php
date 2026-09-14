@@ -27,11 +27,11 @@ require __DIR__ . '/../../includes/tratarErros.php';
   <main>
     <div class="container d-flex flex-column align-items-center justify-content-center gap-5 min-vh-100">
       <h2>Gerenciador de Tarefa</h2>
-      <form action="../../includes/tarefa.php" method="post">
+      <form action="../../includes/criarTarefa.php" method="post">
         <div class="form-div d-flex flex-column text-center gap-3">
-          <input placeholder="Título" class="form-control" name="titulo" id="titulo" type="text">
-          <input placeholder="Descrição" class="form-control" name="descricao" id="descricao" type="text">
-          <input placeholder="Responsável" class="form-control" name="responsavel" id="responsavel" type="text">
+          <input autocomplete="off" placeholder="Título" class="form-control" name="titulo" id="titulo" type="text">
+          <input autocomplete="off" placeholder="Descrição" class="form-control" name="descricao" id="descricao" type="text">
+          <input autocomplete="off" placeholder="Responsável" class="form-control" name="responsavel" id="responsavel" type="text">
           <button class="btn btn-sm btn-primary" type="submit">Criar</button>
         </div>
       </form>
