@@ -1,18 +1,21 @@
 <?php
 
-
 if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
   header('Location: ../public/tarefas/index.php');
-  die();
+  exit;
 }
 
 require __DIR__ . '/../repository/TarefaRepository.php';
 
-$repository = new TarefaRepository();
 $id = htmlspecialchars($_POST['id']);
 
-if (isset($id) && $id !== 0) {
-  $repository->deletar(0,  $id);
+if (!$id) {
   header('Location: ../public/tarefas/index.php');
-  die();
+  exit;
 }
+
+$repository = new TarefaRepository();
+$repository->concluir($id);
+
+header('Location: ../public/tarefas/index.php');
+exit;

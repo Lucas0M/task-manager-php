@@ -1,12 +1,18 @@
 <?php
 
+require __DIR__ . '/HistoricoRepository.php';
 require __DIR__ . '/../database/Database.php';
+
+
 
 class TarefaRepository extends Database
 {
+  private $historico;
+
   public function __construct()
   {
-    return parent::__construct();
+    parent::__construct();
+    $this->historico = new HistoricoRepository(parent::getConexao());
   }
 
   public function inserir(string $titulo, string $descricao, string $responsavel)
@@ -45,27 +51,69 @@ class TarefaRepository extends Database
     return $result;
   }
 
-  public function deletar(bool $ativo, int $id)
+  public function deletar(int $ativo, string $id)
   {
-    $sql = 'UPDATE tarefas SET ativo = :ativo WHERE id = :id';
+    try {
+      $pdo = parent::getConexao();
 
-    $stmt = parent::getConexao()->prepare($sql);
-    $stmt->bindParam(':id', $id);
-    $stmt->bindParam(':ativo', $ativo ? 1 : 0);
+      $pdo->beginTransaction();
 
-    $stmt->execute();
+      $sql = 'UPDATE tarefas SET ativo = :ativo WHERE id = :id';
+      $stmt = $pdo->prepare($sql);
+      $stmt->bindParam(':id', $id);
+      $stmt->bindParam(':ativo', $ativo);
+      $stmt->execute();
+
+      $this->historico->inserir($id, 1);
+
+      $pdo->commit();
+    } catch (PDOException $e) {
+      $pdo->rollBack();
+      echo "Transaction Failed: " . $e->getMessage();
+    }
   }
 
   public function editar(string $titulo, string $descricao, string $responsavel, string $id)
   {
-    $sql = 'UPDATE tarefas SET titulo = :titulo, descricao = :descricao, responsavel = :responsavel WHERE id = :id';
+    try {
+      $pdo = parent::getConexao();
 
-    $stmt = parent::getConexao()->prepare($sql);
-    $stmt->bindParam(':titulo', $titulo);
-    $stmt->bindParam(':descricao', $descricao);
-    $stmt->bindParam(':responsavel', $responsavel);
-    $stmt->bindParam(':id', $id);
+      $pdo->beginTransaction();
 
-    $stmt->execute();
+      $sql = 'UPDATE tarefas SET titulo = :titulo, descricao = :descricao, responsavel = :responsavel WHERE id = :id';
+
+      $stmt = $pdo->prepare($sql);
+      $stmt->bindParam(':titulo', $titulo);
+      $stmt->bindParam(':descricao', $descricao);
+      $stmt->bindParam(':responsavel', $responsavel);
+      $stmt->bindParam(':id', $id);
+
+      $stmt->execute();
+
+      $this->historico->inserir($id, 0);
+
+      $pdo->commit();
+    } catch (PDOException $e) {
+      $pdo->rollBack();
+      echo "Transaction Failed: " . $e->getMessage();
+    }
+  }
+
+  public function concluir(string $id)
+  {
+    try {
+      $pdo = parent::getConexao();
+
+      $pdo->beginTransaction();
+
+      $stmt = $pdo->prepare("UPDATE tarefas SET concluida = 'Concluida' WHERE id = :id");
+      $stmt->bindParam(':id', $id);
+      $stmt->execute();
+
+      $pdo->commit();
+    } catch (PDOException $e) {
+      $pdo->rollBack();
+      echo "Transaction Failed: " . $e->getMessage();
+    }
   }
 }
