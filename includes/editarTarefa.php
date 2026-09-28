@@ -1,6 +1,6 @@
 <?php
 
-require __DIR__ . '/../functions/editar.php';
+require __DIR__ . '/../repository/TarefaRepository.php';
 
 session_start();
 
@@ -9,11 +9,12 @@ if ($_SERVER['REQUEST_METHOD'] !== "POST") {
   die();
 }
 
+$tarefa = $_SESSION['tarefa'];
+
 $titulo = htmlspecialchars($_POST['titulo']) ?? '';
 $descricao = htmlspecialchars($_POST['descricao']) ?? '';
 $responsavel = htmlspecialchars($_POST['responsavel']) ?? '';
-$concluida = htmlspecialchars($_POST['status']) ?? $tarefa['concluida'];
-$id = htmlspecialchars($_GET['id']) ?? 0;
+$id = htmlspecialchars($tarefa['id']);
 $errors = [];
 
 if (!isset($titulo) || !isset($descricao) || !isset($responsavel)) {
@@ -31,7 +32,7 @@ if (!empty($errors)) {
 }
 
 $repository = new TarefaRepository();
-$repository->editar($titulo, $descricao, $responsavel, $concluida, $id);
+$repository->editar($titulo, $descricao, $responsavel, $id);
 
-header("Location: ../public/tarefas/editar.php?id=$id&updated=success");
+header("Location: ../public/tarefas/index.php");
 die();

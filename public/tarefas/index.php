@@ -41,6 +41,7 @@ $tarefas = $repository->listar();
               <th scope="col">Descricao</th>
               <th scope="col">Responsavel</th>
               <th scope="col">Status</th>
+              <th scope="col">Ações</th>
             </tr>
           </thead>
           <tbody>

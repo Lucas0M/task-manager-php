@@ -45,25 +45,25 @@ class TarefaRepository extends Database
     return $result;
   }
 
-  public function deletar(int $id)
+  public function deletar(bool $ativo, int $id)
   {
-    $sql = 'DELETE FROM tarefas WHERE id = :id';
+    $sql = 'UPDATE tarefas SET ativo = :ativo WHERE id = :id';
 
     $stmt = parent::getConexao()->prepare($sql);
     $stmt->bindParam(':id', $id);
+    $stmt->bindParam(':ativo', $ativo ? 1 : 0);
 
     $stmt->execute();
   }
 
-  public function editar(string $titulo, string $descricao, string $responsavel, string $concluida, string $id)
+  public function editar(string $titulo, string $descricao, string $responsavel, string $id)
   {
-    $sql = 'UPDATE tarefas SET titulo = :titulo, descricao = :descricao, responsavel = :responsavel, concluida = :concluida WHERE id = :id';
+    $sql = 'UPDATE tarefas SET titulo = :titulo, descricao = :descricao, responsavel = :responsavel WHERE id = :id';
 
     $stmt = parent::getConexao()->prepare($sql);
     $stmt->bindParam(':titulo', $titulo);
     $stmt->bindParam(':descricao', $descricao);
     $stmt->bindParam(':responsavel', $responsavel);
-    $stmt->bindParam(':concluida', $concluida);
     $stmt->bindParam(':id', $id);
 
     $stmt->execute();

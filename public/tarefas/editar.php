@@ -1,6 +1,13 @@
 <?php
-require __DIR__ . '/../../functions/editar.php';
 require __DIR__ . '/../../includes/tratarErros.php';
+
+$tarefa = $_SESSION['tarefa'] ?? null;
+
+if (!$tarefa) {
+  header('Location: index.php');
+  exit;
+}
+
 ?>
 
 <!doctype html>
@@ -27,15 +34,12 @@ require __DIR__ . '/../../includes/tratarErros.php';
   <main>
     <div class="container d-flex flex-column align-items-center justify-content-center gap-5 min-vh-100">
       <h2>Editar tarefa</h2>
-      <form action="../../includes/editarTarefa.php?id=<?= $tarefa['id']; ?>" method="post">
+      <form action="../../includes/editarTarefa.php" method="post">
         <div class="form-div d-flex flex-column text-center gap-3">
-          <input autocomplete="off" placeholder="Título" value="<?= $tarefa['titulo'] ?>" class="form-control" name="titulo" id="titulo" type="text">
-          <input autocomplete="off" placeholder="Descrição" value="<?= $tarefa['descricao'] ?>" class="form-control" name="descricao" id="descricao" type="text">
-          <input autocomplete="off" placeholder="Responsável" value="<?= $tarefa['responsavel'] ?>" class="form-control" name="responsavel" id="responsavel" type="text">
-          <select name="status" id="status">
-            <option value="Concluida" <?php if ($tarefa['concluida'] === 'Concluida') echo 'selected'; ?>>Concluida</option>
-            <option value="Pendente" <?php if ($tarefa['concluida'] === 'Pendente') echo 'selected'; ?>>Pendente</option>
-          </select>
+          <input autocomplete="off" placeholder="Título" value="<?= htmlspecialchars($tarefa['titulo']) ?>" class="form-control" name="titulo" id="titulo" type="text">
+          <input autocomplete="off" placeholder="Descrição" value="<?= htmlspecialchars($tarefa['descricao']) ?>" class="form-control" name="descricao" id="descricao" type="text">
+          <input autocomplete="off" placeholder="Responsável" value="<?= htmlspecialchars($tarefa['responsavel']) ?>" class="form-control" name="responsavel" id="responsavel" type="text">
+          <input type="text" name="id" value="<?php $tarefa['id'] ?>" hidden>
           <button class="btn btn-sm btn-primary" type="submit">Editar</button>
         </div>
       </form>
