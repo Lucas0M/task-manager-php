@@ -12,7 +12,7 @@ class Database
       $this->conexao = new PDO('sqlite:' . PATH);
       $this->conexao->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
     } catch (PDOException $e) {
-      die("Erro ao conectar com o banco: " . $e->getMessage());
+      exit("Erro ao conectar com o banco: " . $e->getMessage());
     }
   }
 

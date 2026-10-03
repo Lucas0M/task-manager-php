@@ -6,12 +6,12 @@ session_start();
 
 if ($_SERVER['REQUEST_METHOD'] !== "POST") {
   header('Location: ../public/home/index.php');
-  die();
+  exit;
 }
 
-$titulo = htmlspecialchars($_POST['titulo']) ?? '';
-$descricao = htmlspecialchars($_POST['descricao']) ?? '';
-$responsavel = htmlspecialchars($_POST['responsavel']) ?? '';
+$titulo = trim($_POST['titulo'] ?? '');
+$descricao = trim($_POST['descricao'] ?? '');
+$responsavel = trim($_POST['responsavel'] ?? '');
 $errors = [];
 
 if (!isset($titulo) || !isset($descricao) || !isset($responsavel)) {
@@ -25,7 +25,7 @@ if (empty($titulo) || empty($descricao) || empty($responsavel)) {
 if (!empty($errors)) {
   $_SESSION['ERRORS'] = $errors;
   header('Location: ../public/home/index.php');
-  die();
+  exit;
 }
 
 $repository = new TarefaRepository();

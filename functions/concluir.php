@@ -7,7 +7,7 @@ if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
 
 require __DIR__ . '/../repository/TarefaRepository.php';
 
-$id = htmlspecialchars($_POST['id']);
+$id = $_POST['id'];
 
 if (!$id) {
   header('Location: ../public/tarefas/index.php');

@@ -4,10 +4,10 @@ require __DIR__ . '/HistoricoRepository.php';
 require __DIR__ . '/../database/Database.php';
 
 
-
 class TarefaRepository extends Database
 {
   private $historico;
+  private $CONCLUIDA = 'Concluida';
 
   public function __construct()
   {
@@ -95,7 +95,7 @@ class TarefaRepository extends Database
       $pdo->commit();
     } catch (PDOException $e) {
       $pdo->rollBack();
-      echo "Transaction Failed: " . $e->getMessage();
+      exit("Transaction Failed: " . $e->getMessage());
     }
   }
 
@@ -106,14 +106,15 @@ class TarefaRepository extends Database
 
       $pdo->beginTransaction();
 
-      $stmt = $pdo->prepare("UPDATE tarefas SET concluida = 'Concluida' WHERE id = :id");
+      $stmt = $pdo->prepare("UPDATE tarefas SET concluida = :concluida WHERE id = :id");
       $stmt->bindParam(':id', $id);
+      $stmt->bindParam(':concluida', $this->CONCLUIDA);
       $stmt->execute();
 
       $pdo->commit();
     } catch (PDOException $e) {
       $pdo->rollBack();
-      echo "Transaction Failed: " . $e->getMessage();
+      exit("Transaction Failed: " . $e->getMessage());
     }
   }
 }
